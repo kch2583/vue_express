@@ -2,22 +2,12 @@
     <v-container class="Products">
     <v-row>
       <v-col width="80%">
-        <div v-if="ProductDetail">
         <v-card class="pa-2">
-          <router-view></router-view>
-          <div> {{ ProductDetail }} </div>
-          <div> {{ ProductDetail[0].id }} </div>
-        
-        <v-card-title> {{ ProductDetail[0].number }} </v-card-title>
+          <v-card-title> {{ ProductDetail[0].number }} </v-card-title>
           <!-- <v-img></v-img> -->
           <v-card-text> {{ ProductDetail[0].img }} </v-card-text>
-          <v-card-text> {{ ProductDetail[0].pattern }} | {{ ProductDetail[0].color }} </v-card-text>
-            
-          
-        
-          
+          <v-card-text> {{ ProductDetail[0].pattern }} | {{ ProductDetail[0].color }} </v-card-text>  
         </v-card>
-        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -27,7 +17,7 @@ export default {
   name: 'productDetail',
     data: () => {
     return {
-      ProductDetail: ''
+      ProductDetail: "hi"
     }
     },
 

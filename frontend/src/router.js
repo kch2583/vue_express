@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Products from './views/Products.vue'
 import ProductDetail from './views/ProductDetail.vue'
+import ContactUs from './views/ContactUs.vue'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       name: 'ProductDetail',
       component: ProductDetail,
       props: true,
+    },
+    {
+      path: '/ContactUs',
+      name: 'ContactUs',
+      component: ContactUs,
     }
 
   ]
