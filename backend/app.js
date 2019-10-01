@@ -6,6 +6,8 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var history = require('connect-history-api-fallback');
+var morgan = require('morgan');
+var cors = require('cors');
 
 // var db = require('./db');
 
@@ -25,8 +27,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use(cors());
 
-
+// app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
 // Mongodb
 
@@ -35,10 +40,11 @@ app.use(express.static(path.join(__dirname, '/public')));
 // route
 
 app.use('/api/Products', ProductsRouter);
-app.use(history());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use(history());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,6 +9,8 @@ var app = express();
 /* GET home page. */ 
 router.get('/', function(req, res, next) { 
   res.send(Products)
+  console.log(Products);
+  
 }); 
 
 router.get('/:id', function(req, res, next){

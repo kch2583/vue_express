@@ -33,6 +33,7 @@ export default new Router({
       path: '/Products/:id',
       name: 'ProductDetail',
       component: ProductDetail,
+      props: true,
     }
 
   ]

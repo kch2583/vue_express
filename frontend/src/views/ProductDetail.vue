@@ -2,13 +2,22 @@
     <v-container class="Products">
     <v-row>
       <v-col width="80%">
+        <div v-if="ProductDetail">
         <v-card class="pa-2">
           <router-view></router-view>
-          <v-card-title> {{ ProductDetail[0].number }} </v-card-title>
+          <div> {{ ProductDetail }} </div>
+          <div> {{ ProductDetail[0].id }} </div>
+        
+        <v-card-title> {{ ProductDetail[0].number }} </v-card-title>
           <!-- <v-img></v-img> -->
           <v-card-text> {{ ProductDetail[0].img }} </v-card-text>
           <v-card-text> {{ ProductDetail[0].pattern }} | {{ ProductDetail[0].color }} </v-card-text>
+            
+          
+        
+          
         </v-card>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -16,17 +25,20 @@
 <script>
 export default {
   name: 'productDetail',
-  created: function () {
+    data: () => {
+    return {
+      ProductDetail: ''
+    }
+    },
+
+  created () {
     var id = this.$route.params.id
     this.$http.get(`/api/Products/${id}`)
     .then((response) => {
       this.ProductDetail = response.data
     })
-  },
-  data: function () {
-    return {
-      ProductDetail: {}
-    }
+  
+
   }
 }
 </script>
