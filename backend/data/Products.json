@@ -1,0 +1,9 @@
+[
+  {"id":0, "number":"1000", "pattern":"no-pattern", "color": "blue", "img": "나중에"},
+      {"id":1, "number":"1001", "pattern":"asdf", "color": "black" ,"img": "나중에"},
+      {"id":2, "number":"1002", "pattern":"djfielf", "color": "yellow","img": "나중에"},
+      {"id":3, "number":"1003", "pattern":"djfielf", "color": "white" ,"img": "나중에"},
+      {"id":4, "number":"1004", "pattern":"djfielf", "color": "white" ,"img": "나중에"},
+      {"id":5, "number":"1005", "pattern":"patterned", "color": "indigo" ,"img": "나중에"},
+      {"id":6, "number":"1006", "pattern":"patterned", "color": "red" ,"img": "나중에"}
+]
