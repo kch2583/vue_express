@@ -50,7 +50,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  .Products {
-    background: lightgreen;
-  }
+
 </style>

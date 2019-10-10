@@ -1,10 +1,7 @@
 <template>
-  <div id="KakaoMap">
-    <v-card>
-    <div id="map" style="width:800px;height:800px;"></div>
-    <h1> {{ msg }} </h1>
-    </v-card>
-  </div>
+
+  <div id="map" style="width50%; height:400px;"></div>
+
 </template>
 
 <script>
@@ -40,7 +37,8 @@ export default {
         map.setCenter(coords);
         marker.setMap(map);
       } 
-    });    
+    });   
+
   }
 }
 </script>
