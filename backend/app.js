@@ -8,12 +8,14 @@ var bodyParser = require('body-parser');
 var history = require('connect-history-api-fallback');
 var morgan = require('morgan');
 var cors = require('cors');
+var session = require('express-session');
 
 // var db = require('./db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ProductsRouter = require('./routes/Products');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -28,30 +30,40 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(morgan('combined'))
+
 app.use(bodyParser.json())
 app.use(cors());
+
+app.set('trust proxy', 1)
+app.use(session({
+  key: 'sid', // 세션키
+  resave: false,
+  secret: 'soiejfsk92vnj28fjnks9173rn', // 비밀키
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60, // 쿠키 유효기간 1시간
+    secure: true
+  }
+}));
+
 
 // app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
 // Mongodb
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://chanhee:kimchan8855@cluster0-1ay2j.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+mongoose.connect('mongodb+srv://chanhee:kimchan8855@cluster0-1ay2j.mongodb.net/test?retryWrites=true&w=majority',{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
-
 
 
 // route
 
 app.use('/api/Products', ProductsRouter);
-
+app.use('/api/admin', adminRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 app.use(history());
 

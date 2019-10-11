@@ -1,22 +1,14 @@
 <template>
- <v-form v-model="valid">
-   <v-container>
-     <v-row>
-       <v-col>
-         <v-text-field label="PASSWORD">
+  <AdminLogin/>
 
-         </v-text-field>
-       </v-col>
-     </v-row>
-   </v-container>
- </v-form>
 </template>
 <script>
+import AdminLogin from '../components/AdminLogin'
+
 export default {
-  
+  components: {
+    AdminLogin
+  }
 
 }
 </script>
-<style lang="scss">
-
-</style>

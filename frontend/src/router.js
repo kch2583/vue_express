@@ -6,6 +6,7 @@ import Products from './views/Products.vue'
 import ProductDetail from './views/ProductDetail.vue'
 import ContactUs from './views/ContactUs.vue'
 import admin from './views/admin.vue'
+import AdminSettings from './views/AdminSettings.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,12 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: admin,
+      props: true,
+    },
+    {
+      path: '/admin/settings',
+      name: 'settings',
+      component: AdminSettings,
     },
 
 
