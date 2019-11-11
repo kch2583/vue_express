@@ -1,16 +1,8 @@
 <template>
   <div class="Home">
-    <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
-      <v-row align="center" justify="center">
-        <h1>준비중</h1>
-      </v-row>
-    </v-parallax>
+   
     <v-card align="center" justify="center">
-      <v-card-title>
-        Facebook tests hiding likes from Australian users
-      </v-card-title>
-      
-      <v-img :src=HomeImage height="1000" >
+      <v-img id="homeImg" :src=HomeImage height="1000" >
       <v-card-text class="white--text pa-6 mt-10">
         Facebook will follow Instagram by hiding the number of likes on users' posts during a trial in Australia.
         From Friday, some Australian users will no longer be able to see the number of likes - or reactions - on another person's Facebook post.
@@ -20,6 +12,11 @@
       </v-card-text>
       </v-img>
     </v-card>
+     <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+      <v-row align="center" justify="center">
+        <h1>준비중</h1>
+      </v-row>
+    </v-parallax>
   </div>
 </template>
 
@@ -32,7 +29,8 @@ export default {
 </script>
 
 <style lang="scss">
-  .Home {
-    background: lightsteelblue;
+  #homeImg {
+    z-index : 2;
+    
   }
 </style>

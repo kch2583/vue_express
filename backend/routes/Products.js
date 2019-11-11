@@ -1,24 +1,52 @@
 var express = require('express'); 
 var path = require("path") 
 var router = express.Router(); 
-var Products = require('../data/Products.json');
-var Fabrics = require('../data/fabric.js');
+// var Products = require('../models/Products.json');
+var Fabrics = require('../models/Fabric');
+var catchErrors = require('../lib/async-error')
 
 var app = express();
 
 /* GET home page. */ 
-router.get('/', function(req, res, next) { 
-  res.send(Products)
+router.post('/', function(req, res, next) { 
+  console.log(req.body.selectedTags);
   
+  Fabrics.find({},function(err, Fabric){
+    if(err) return res.status(500).send({error: 'database failure'});
+
+    res.json(Fabric);
+})
+
+  Fabric.find().forEach(function())
 }); 
 
-router.get('/:id', function(req, res, next){
+// router.get('/:id', function(req, res, next){
+//   var id = req.params.id
+//   var ProductDetail = Products.filter(function(Product){
+//     return Product.number === String(id)
+//   })
+//   res.send(ProductDetail)
+// })
+
+router.get('/:id', catchErrors(async(req, res, next) => {
   var id = req.params.id
-  var ProductDetail = Products.filter(function(Product){
-    return Product.number === String(id)
-  })
-  res.send(ProductDetail)
-})
+  var fabric = await Fabrics.find({_id:id})
+  res.send(fabric);
+}))
+
+
+
+//filter 
+// router.post('/', catchErrors(async(req,res,next) => {
+//   console.log(req.body.patterntag);
+  
+// }))
+
+// router.get('/filter', function(req,res,next){
+//   console.log('hi');
+  
+// })
+
 
 //전체조회
 // router.get('/', function(req, res, next) { 

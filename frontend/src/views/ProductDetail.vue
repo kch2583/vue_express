@@ -1,35 +1,54 @@
 <template>
+<div class="pt-12">
+  <subMenu pageName='Product' pageimagename="leatherfabric3.jpg"></subMenu>
     <v-container class="Products">
     <v-row>
-      <v-col width="80%">
-        <v-card class="pa-2">
-          <v-card-title> {{ ProductDetail[0].number }} </v-card-title>
+      <v-col width="80%" class="pt-12">
+        <v-card class="pa-2" v-for="details in ProductDetail" :key="details._id">
+          <v-card-title> {{ details.number }} </v-card-title>
           <!-- <v-img></v-img> -->
-          <v-card-text> {{ ProductDetail[0].img }} </v-card-text>
-          <v-card-text> {{ ProductDetail[0].pattern }} | {{ ProductDetail[0].color }} </v-card-text>  
+          <v-card-text> {{ details.image }} </v-card-text>
+          <v-card-text> <div> {{ details.pattern }} | {{ details.color }} </div></v-card-text>  
         </v-card>
       </v-col>
     </v-row>
+    <ProductCarousel/>
   </v-container>
+  </div>
 </template>
 <script>
+import subMenu from '../components/subMenu'
+import ProductCarousel from '../components/ProductCarousel'
+
 export default {
   name: 'productDetail',
+  components:{
+    subMenu,
+    ProductCarousel
+  },
     data: () => {
-    return {
-      ProductDetail: "hi"
-    }
+      return {
+        ProductDetail: {},
+        Detail: {}
+      }
     },
-
-  created () {
+    watch: {
+    // 라우트가 변경되면 메소드를 다시 호출됩니다.
+    '$route': function(ChangeItem){
+      var id = this.$route.params.id
+    this.$http.get(`/api/Products/${id}`)
+    .then((response) => {
+      this.ProductDetail = response.data
+    })
+    }
+  },
+  created() {
     var id = this.$route.params.id
     this.$http.get(`/api/Products/${id}`)
     .then((response) => {
       this.ProductDetail = response.data
     })
-  
-
-  }
+  },
 }
 </script>
 <style lang="scss">

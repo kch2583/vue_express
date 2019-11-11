@@ -1,6 +1,8 @@
 <template>
-<div id="TopMenuBar">
+<div>
 
+<!-- 
+<div id="TopMenuBar" class="transparant">
         <div id="MainLogo" class="ma-3"> {{ Logo }} </div>    
         
 
@@ -33,7 +35,41 @@
         </v-menu>
       </div>
 
+  </div> -->
+  <div>
+      <v-tabs id='tabs'  background-color="transparent" color="indigo darken-4">
+        <v-tab disabled> {{ Logo }} </v-tab>
+        <v-spacer></v-spacer>
+        <v-tab v-for="menu in Menunames" :key='menu.id' :to="{path:menu.path}" 
+        class="hidden-sm-and-down font-weight-black"> 
+          {{ menu.name }} 
+        </v-tab>
+
+        <div class="MenuIcon hidden-md-and-up">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn tile large icon v-on="on">
+                <i class="material-icons right">menu</i>
+              </v-btn>  
+            </template>
+            <v-list>
+              <div v-for="menu in Menunames" :key="menu.id" >
+                <router-link :to=" {path:menu.path } " class="MenuLists">
+                  <v-list-item>
+                    {{ menu.name }}
+                  </v-list-item>
+                </router-link>  
+              </div>
+              
+            </v-list>
+          </v-menu>
+        </div>
+      </v-tabs>
+    
+
+ 
   </div>
+</div>
 </template>
 
 <script>
@@ -54,35 +90,8 @@ export default {
 }
 </script>
 <style lang="scss">
-  #TopMenuBar {
-    background: salmon;  
-    height:50px;
-    font-weight: bold;
-  }
-
-  #MainLogo {
-    display: inline-block;
-  }
-  #MenuList { 
-    
-    list-style-type: none;
-    float: right;
-  }
-  #TopMenuBar li {
-    display: inline-block;
-    padding: 12px 20px;
-  }
-  .MenuIcon {
-    float:right;
-  }
-  .MenuLists {
-    text-decoration: none;
-    color:black;
-  }
-  .MenuLists:hover {
-    color: rgb(122,87,150);
-  }
-  .router-link-active {
-    color: rgb(122,87,150);
+  #tabs {
+    position:absolute;
+    z-index: 3
   }
 </style>

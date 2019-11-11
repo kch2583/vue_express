@@ -9,6 +9,11 @@ var history = require('connect-history-api-fallback');
 var morgan = require('morgan');
 var cors = require('cors');
 var session = require('express-session');
+var passport = require('passport')
+var passportConfig = require('./lib/passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
+var jwt = require('jsonwebtoken')
 
 // var db = require('./db');
 
@@ -34,12 +39,15 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors());
 
+app.use(flash());
+
 app.set('trust proxy', 1)
 app.use(session({
   key: 'sid', // 세션키
-  resave: false,
+  resave: true,
   secret: 'soiejfsk92vnj28fjnks9173rn', // 비밀키
   saveUninitialized: true,
+  store: new session.MemoryStore(),
   cookie: {
     maxAge: 1000 * 60 * 60, // 쿠키 유효기간 1시간
     secure: true
@@ -47,18 +55,34 @@ app.use(session({
 }));
 
 
-// app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
-// Mongodb
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig(passport);
 
-mongoose.connect('mongodb+srv://chanhee:kimchan8855@cluster0-1ay2j.mongodb.net/test?retryWrites=true&w=majority',{
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.user;
+  res.locals.flashMessages = req.flash();
+  next();
 });
 
 
-// route
 
+
+// Mongodb
+mongoose.Promise = global.Promise;
+const uri = "mongodb+srv://chanhee:kimchan8855@cluster0-1ay2j.mongodb.net/Product?retryWrites=true&w=majority";
+mongoose.connect(uri, { useCreateIndex: true, useNewUrlParser: true,  useUnifiedTopology: true}, function(err, client){
+  if(err){
+    console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+  }
+  console.log('Connected...');
+});
+
+// route
+var authRouter = require('./routes/auth')
+
+app.use('/api/auth', authRouter);
 app.use('/api/Products', ProductsRouter);
 app.use('/api/admin', adminRouter);
 app.use('/', indexRouter);
