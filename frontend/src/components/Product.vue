@@ -2,10 +2,7 @@
 <div>
 <subMenu pageName="Products" pageimagename="leatherfabric3.jpg"></subMenu>
   <v-container class="Products mt-3">
-    <SelectChips
-    :Tags = "Tags"
-    ></SelectChips>
-   
+  
     <v-text-field
       label="Search"
       placeholder="숫자만 입력하세요 ex) 1080"
@@ -16,6 +13,32 @@
       
     >
     </v-text-field>
+
+
+
+
+    <v-card
+    
+    class="mx-auto"
+    v-for="(Tag, index) in Tags" :key="index"
+  >
+  <v-card-title> {{ Tag.title }} </v-card-title>
+    <v-card-text>
+      <v-chip-group
+        multiple
+        column
+        active-class="primary--text"
+      >
+     
+        <v-chip filter v-for="tag in Tag.tags" :key="tag" @click="selected(Tag,tag)">
+          {{ tag }}
+        </v-chip>
+     
+      </v-chip-group>
+    </v-card-text>
+  </v-card>
+
+
 
     <v-card v-show="!this.Products"> 데이터가 없습니다. </v-card>
     <v-row v-show="this.Products">
@@ -39,13 +62,10 @@
   </div>
 </template>
 <script>
-import { eventBus } from '../main.js'
-import SelectChips from '../components/SelectChips'
 import subMenu from './subMenu.vue'
 export default {
   components:{
     subMenu,
-    SelectChips,
   },
   data: () => ({
     searchN: "",
@@ -77,7 +97,9 @@ export default {
       'yellow',
       'sdf'
     ]}
-    ]
+    ],
+    selectedPattern : [],
+    selectedColor: []
       
     
    
@@ -87,16 +109,6 @@ export default {
     .then((response) => {
 
       this.Products = response.data    
-    })
-    eventBus.$on("filteredProducts", (filteredProducts) => {
-      this.Products = filteredProducts
-      
-      
-    })
-      eventBus.$on("searchedNumber", (searchedNumber) => {
-      this.Products = searchedNumber
-      
-      
     })
   },
 
@@ -115,16 +127,44 @@ export default {
         return this.Products.filter(i => {
           return i.number.includes(this.searchN)
         })  
-      }
-      else{
+      }else if (this.selectedPattern.length !== 0 || this.selectedColor.length !== 0) {
+        if (this.selectedPattern.length !== 0 && this.selectedColor.length !== 0) {
+          return this.Products.filter(i => {
+            return this.selectedPattern.includes(i.pattern)  && this.selectedColor.includes(i.color)
+          })   
+        }else{
+          return this.Products.filter(i => {
+            return this.selectedPattern.includes(i.pattern)  || this.selectedColor.includes(i.color)
+          }) 
+        }
+        
+      }else {
         return this.Products.slice(this.startOffset, this.endOffset)
       }
-     
     },
     
   },
+  methods: {
+    selected(Tag, tag) {
+       switch (Tag.name) {  
+        case 'PatternTag' :
+          if(this.selectedPattern.indexOf(tag) !== -1){
+              this.selectedPattern.splice(tag, 1)
+          }else{
+            this.selectedPattern.push(tag)
+          }
+           break;
+        case "ColorTag":
+          if(this.selectedColor.indexOf(tag) !== -1){
+            this.selectedColor.splice(tag, 1)
+          }else{
+            this.selectedColor.push(tag)
+          }
+          break;
+      }
+     
+      
+    }
+  },
 }
 </script>
-<style lang="scss">
-
-</style>

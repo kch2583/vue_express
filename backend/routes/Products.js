@@ -16,67 +16,6 @@ router.get('/', catchErrors(async(req, res, next) => {
       })
 }))
 
-
-
-/* GET home page. */ 
-router.post('/', catchErrors(async(req, res, next) => { 
-
-  var selectedPatternTags = req.body.selectedPatternTags 
-  var selectedColorTags = req.body.selectedColorTags 
-  
-  var Plength = selectedPatternTags.length
-  var Clength = selectedColorTags.length
-
-    // var fabrics = Fabrics.find( {$or:[ { pattern:{ $in:selectedTags } }, { color:{ $in:selectedTags } } ] } ,function(err, Fabric){
-    //   if(err) return res.status(500).send({error: 'database failure'});
-    //   console.log(Fabric);
-      
-    //   res.json(Fabric);
-    // })
-
-
-    
-  var filteredFabrics = await Fabrics.find( { $or: [ {pattern:{ $in:selectedPatternTags  } }  , { color:{ $in:selectedColorTags } }  ] }  )
-  // var hi = await Fabrics.find(  {pattern:{ $in:selectedPatternTags  } , color:{ $in:selectedColorTags } }  )
-  // var filteredFabrics = await Fabrics.find( { $or: [ {pattern:{ $in:selectedPatternTags  } }  , { color:{ $in:selectedColorTags } }  ] }  )
-  var Fabric = await Fabrics.find({})
-
-
-  if (filteredFabrics.length === 0) {
-    if (Plength === 0 && Clength === 0) {
-      console.log(1)
-      
-      res.send(Fabric)
-    }else{
-      console.log(2)
-      res.json();
-    }
-  }else {
-    console.log(3)
-    res.send(filteredFabrics)
-  }
-  console.log(4)
-  // res.json(filteredFabrics)
-
-  
-  
-  //   Fabrics.find({},function(err, Fabric){
-  //     if(err) return res.status(500).send({error: 'database failure'});
-
-  //     res.json(Fabric);
-  //   })
-
-}))
-
-
-
-router.post('/search', catchErrors(async(req, res, next) => {
-  var searchNumber = req.body.searchNumber
-  var searchedFabrics = await Fabrics.find( { number : searchNumber } )
-  res.send(searchedFabrics)
-}))
-
-
 // router.get('/:id', function(req, res, next){
 //   var id = req.params.id
 //   var ProductDetail = Products.filter(function(Product){
