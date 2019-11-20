@@ -3,9 +3,20 @@
 <subMenu pageName="Products" pageimagename="leatherfabric3.jpg"></subMenu>
   <v-container class="Products mt-3">
     <SelectChips
-    
     :Tags = "Tags"
     ></SelectChips>
+   
+    <v-text-field
+      label="Search"
+      placeholder="숫자만 입력하세요 ex) 1080"
+      persistent-hint
+      v-model="searchN"
+      outlined
+      append-icon="fas fa-search"
+      
+    >
+    </v-text-field>
+
     <v-card v-show="!this.Products"> 데이터가 없습니다. </v-card>
     <v-row v-show="this.Products">
       <v-col v-for="item in calData" :key="item.id" cols="6" sm="4">
@@ -34,9 +45,10 @@ import subMenu from './subMenu.vue'
 export default {
   components:{
     subMenu,
-    SelectChips
+    SelectChips,
   },
   data: () => ({
+    searchN: "",
     page:1,
     Products: [],
     dataPerPage: 12, //한 페이지당 보여지는 리스트의 갯수
@@ -81,7 +93,13 @@ export default {
       
       
     })
+      eventBus.$on("searchedNumber", (searchedNumber) => {
+      this.Products = searchedNumber
+      
+      
+    })
   },
+
   computed: {
     startOffset() {
       return ((this.curPageNum -1) * this.dataPerPage);
@@ -93,8 +111,17 @@ export default {
       return Math.ceil(this.Products.length / this.dataPerPage);
     },
     calData() {
-      return this.Products.slice(this.startOffset, this.endOffset)
-    }
+      if (this.searchN) {
+        return this.Products.filter(i => {
+          return i.number.includes(this.searchN)
+        })  
+      }
+      else{
+        return this.Products.slice(this.startOffset, this.endOffset)
+      }
+     
+    },
+    
   },
 }
 </script>

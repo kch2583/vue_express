@@ -59,28 +59,23 @@ router.post('/', catchErrors(async(req, res, next) => {
   // res.json(filteredFabrics)
 
   
-  // if(!selectedTags){
+  
   //   Fabrics.find({},function(err, Fabric){
   //     if(err) return res.status(500).send({error: 'database failure'});
 
   //     res.json(Fabric);
   //   })
-  // }else if(selectedTags.length === 0){
-  //   Fabrics.find({},function(err, Fabric){
-  //     if(err) return res.status(500).send({error: 'database failure'});
-
-  //     res.json(Fabric);
-  //   })
-  // }else if(selectedTags.length > 0){
-  //   if(filteredFabrics.length === 0){
-  //     res.send()
-  //   }else{
-  //     res.json(filteredFabrics)
-  //   }
-  // }
-
 
 }))
+
+
+
+router.post('/search', catchErrors(async(req, res, next) => {
+  var searchNumber = req.body.searchNumber
+  var searchedFabrics = await Fabrics.find( { number : searchNumber } )
+  res.send(searchedFabrics)
+}))
+
 
 // router.get('/:id', function(req, res, next){
 //   var id = req.params.id
