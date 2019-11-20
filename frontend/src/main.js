@@ -12,6 +12,7 @@ import VueSession from 'vue-session'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.use(VueSession)
+export const eventBus = new Vue()
 
 new Vue({
   router,

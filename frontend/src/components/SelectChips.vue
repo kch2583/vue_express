@@ -1,9 +1,11 @@
 <template>
 <v-container>
 <v-card
-    max-width="400"
+    
     class="mx-auto"
+    v-for="(Tag, index) in Tags" :key="index"
   >
+  <v-card-title> {{ Tag.title }} </v-card-title>
     <v-card-text>
       <v-chip-group
         multiple
@@ -11,7 +13,7 @@
         active-class="primary--text"
       >
      
-        <v-chip filter v-for="tag in patternTags" :key="tag" @click="patternFilter(tag)">
+        <v-chip filter v-for="tag in Tag.tags" :key="tag" @click="Filter(Tag, tag)">
           {{ tag }}
         </v-chip>
      
@@ -21,35 +23,50 @@
   </v-container>
 </template>
 <script>
+import { eventBus } from '../main.js'
 export default {
-   data () {
-      return {
-        selectedTags:[],
-        patternTags: [
-          'no-pattern',
-          'difigne',
-          'sdf',
-          'Food',
-          'Drawers',
-          'Shopping',
-          'Art',
-          'Tech',
-          'Creative Writing',
+  props: ["Tags"],
+  data () {
+    return {
+      selectedTags:[
+         {name: "PatternTag", selected:[]},
+        {name: "ColorTag", selected:[]},
       ],
-      }
-   },
+      selectedPatternTags: [] ,
+      selectedColorTags: [] ,
+    }
+  },
+ 
+ 
    methods: {
-     patternFilter(tag) {
-        if (this.selectedTags.indexOf(tag) !== -1) {
-          this.selectedTags.splice(tag,1)
-        }else{
-            this.selectedTags.push(tag)
-        }
-
-       this.$http.post('/api/Products',{selectedTags:this.selectedTags})
+     Filter(Tag, tag) {
+       
+       
+       switch (Tag.name) {
+         case "PatternTag":
+           if (this.selectedPatternTags.indexOf(tag) !== -1) {
+             this.selectedPatternTags.splice(tag, 1)
+           }else{
+             this.selectedPatternTags.push(tag)
+           }
+           break;
+       
+         case "ColorTag":
+           if (this.selectedColorTags.indexOf(tag) !== -1) {
+             this.selectedColorTags.splice(tag, 1)
+           }else{
+             this.selectedColorTags.push(tag)
+           }
+           break;
+       }
+       
+        
+       this.$http.post('/api/Products',{selectedPatternTags:this.selectedPatternTags, selectedColorTags: this.selectedColorTags})
         .then((response) => {
-
-        this.Products = response.data    
+       
+          
+          eventBus.$emit("filteredProducts", response.data)
+        
         })
      }
 

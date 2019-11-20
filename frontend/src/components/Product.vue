@@ -2,8 +2,12 @@
 <div>
 <subMenu pageName="Products" pageimagename="leatherfabric3.jpg"></subMenu>
   <v-container class="Products mt-3">
-    <SelectChips/>
-    <v-row>
+    <SelectChips
+    
+    :Tags = "Tags"
+    ></SelectChips>
+    <v-card v-show="!this.Products"> 데이터가 없습니다. </v-card>
+    <v-row v-show="this.Products">
       <v-col v-for="item in calData" :key="item.id" cols="6" sm="4">
         <router-link :to="{ name: 'ProductDetail', params: { id : item._id } }">
           <v-card class="pa-2">
@@ -24,6 +28,7 @@
   </div>
 </template>
 <script>
+import { eventBus } from '../main.js'
 import SelectChips from '../components/SelectChips'
 import subMenu from './subMenu.vue'
 export default {
@@ -36,15 +41,46 @@ export default {
     Products: [],
     dataPerPage: 12, //한 페이지당 보여지는 리스트의 갯수
     curPageNum: 1, //현재 ui에 보여지고 있는 페이지의 숫자
+    Tags: [
+      { title: "Pattern Filter",
+      name:'PatternTag',
+      tags: [
+        'no-pattern',
+        'difigne',
+        'sdf',
+        'Food',
+        'Drawers',
+        'Shopping',
+        'Art',
+        'Tech',
+        'Creative Writing',
+      ]},
+    { title: "Color Filter",
+    name:'ColorTag',
+      tags: [
+      'black',
+      'white',
+      'blue',
+      'red',
+      'yellow',
+      'sdf'
+    ]}
+    ]
+      
+    
    
   }),
   created () {
-    this.$http.post('/api/Products')
+    this.$http.get('/api/Products')
     .then((response) => {
 
       this.Products = response.data    
     })
-    
+    eventBus.$on("filteredProducts", (filteredProducts) => {
+      this.Products = filteredProducts
+      
+      
+    })
   },
   computed: {
     startOffset() {

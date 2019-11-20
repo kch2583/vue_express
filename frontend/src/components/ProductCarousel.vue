@@ -41,7 +41,7 @@ export default {
     }
   },
   created () {
-    this.$http.get('/api/Products')
+    this.$http.post('/api/Products', {})
     .then((response) => {
 
       this.Products = response.data    
@@ -52,8 +52,3 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-  // #slideText {
-  //   padding: 85% 0
-  // }
-</style>
