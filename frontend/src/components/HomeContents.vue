@@ -2,15 +2,19 @@
   <div class="Home">
    
     <v-card align="center" justify="center">
-      <v-img id="homeImg" :src=HomeImage height="1000" >
-      <v-card-text class="white--text pa-6 mt-10">
-        Facebook will follow Instagram by hiding the number of likes on users' posts during a trial in Australia.
-        From Friday, some Australian users will no longer be able to see the number of likes - or reactions - on another person's Facebook post.
-        The controversial change has been trialled by sister platform Instagram in several countries since July.
-        Facebook said removing likes from view was an attempt to reduce social pressure among users.
-        People will still be able to see the number of likes on their own posts, the company said.
-      </v-card-text>
+      <v-img id="homeImg" :src=HomeImage height="1000">
+      <div class="homeInfo ">
+        <v-card-title class=" display-3 font-weight-black">
+          회사 이름
+      </v-card-title>
+      <v-card-title class=" display-1">
+       제품보러가기 
+       <v-icon>fas fa-arrow-right</v-icon>
+      </v-card-title>
+      </div>
       </v-img>
+
+         
     </v-card>
      <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
       <v-row align="center" justify="center">
@@ -33,4 +37,9 @@ export default {
     z-index : 2;
     
   }
+  .homeInfo {
+    // text-shadow: -1px 0 black,0 1px black,1px 0 black,0 -1px black;
+    margin: 300px;
+  }
+  
 </style>

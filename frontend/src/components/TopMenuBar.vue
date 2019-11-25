@@ -37,7 +37,7 @@
 
   </div> -->
   <div>
-      <v-tabs id='tabs'  background-color="transparent" color="indigo darken-4">
+      <v-tabs id='tabs' background-color="transparent" color="indigo darken-4">
         <v-tab disabled> {{ Logo }} </v-tab>
         <v-spacer></v-spacer>
         <v-tab v-for="menu in Menunames" :key='menu.id' :to="{path:menu.path}" 

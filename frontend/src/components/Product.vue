@@ -2,54 +2,62 @@
 <div>
 <subMenu pageName="Products" pageimagename="leatherfabric3.jpg"></subMenu>
   <v-container class="Products mt-3">
-  
-    <v-text-field
+ 
+   <v-card style="background-color:transparent;" elevation="9">
+     <v-container>
+    <v-card    
+      class="mx-auto"
+      style="background-color:transparent;"
+      flat
+      v-for="(Tag, index) in Tags" :key="index"
+      
+    >
+      <v-card-title> {{ Tag.title }} </v-card-title>
+        <v-card-text>
+          <v-chip-group
+          
+            multiple
+            column
+            active-class="primary--text"
+          >
+        
+            <v-chip filter v-for="tag in Tag.tags" :key="tag" @click="selected(Tag,tag)">
+              {{ tag }}
+            </v-chip>
+        
+          </v-chip-group>
+        </v-card-text>
+    </v-card>
+     <v-text-field
+      class="mt-9"
       label="Search"
       placeholder="숫자만 입력하세요 ex) 1080"
-      persistent-hint
       v-model="searchN"
       outlined
       append-icon="fas fa-search"
-      
     >
     </v-text-field>
+    </v-container>
+    </v-card>
 
-
-
-
-    <v-card
-    
-    class="mx-auto"
-    v-for="(Tag, index) in Tags" :key="index"
-  >
-  <v-card-title> {{ Tag.title }} </v-card-title>
-    <v-card-text>
-      <v-chip-group
-        multiple
-        column
-        active-class="primary--text"
-      >
-     
-        <v-chip filter v-for="tag in Tag.tags" :key="tag" @click="selected(Tag,tag)">
-          {{ tag }}
-        </v-chip>
-     
-      </v-chip-group>
-    </v-card-text>
-  </v-card>
-
-
-
-    <v-card v-show="!this.Products"> 데이터가 없습니다. </v-card>
+<!-- v-show="!this.Products" -->
+    <v-card  class="mt-12" style="background-color:transparent;" elevation="8"> 
+      <p class="display-1 pa-12 text-center" >데이터가 없습니다.</p> 
+    </v-card>
     <v-row v-show="this.Products">
-      <v-col v-for="item in calData" :key="item.id" cols="6" sm="4">
+      
+      <v-col v-for="item in calData" :key="item.id" cols="6" sm="4" >
         <router-link :to="{ name: 'ProductDetail', params: { id : item._id } }">
-          <v-card class="pa-2">
+          <v-hover>
+          <template v-slot="{ hover }">
+          <v-card class="pa-2" :elevation="hover ? 24 : 6">
             <v-card-title> {{ item.number }} </v-card-title>
             <!-- <v-img></v-img> -->
             <v-card-text> {{ item.img }} </v-card-text>
             <v-card-text> {{ item.pattern }} | {{ item.color }} </v-card-text>
           </v-card>
+          </template>
+          </v-hover>
         </router-link>
       </v-col>
     </v-row>

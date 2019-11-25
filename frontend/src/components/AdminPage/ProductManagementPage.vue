@@ -194,17 +194,22 @@ export default {
       const index = this.fabrics.indexOf(item)
       this.editedItem = Object.assign({}, item)
       var id = this.editedItem._id
-      confirm('Are you sure you want to delete this item?') && this.fabrics.splice(index, 1)
-      this.$http.delete(`/api/admin/settings/product/${id}`,
-       { number: this.editedItem.number,pattern: this.editedItem.pattern, color: this.editedItem.color,image: this.editedItem.image,})
-      .then((response) => {
+      if ( confirm('Are you sure you want to delete this item?') == true) {
+        this.fabrics.splice(index, 1)
+        this.$http.delete(`/api/admin/settings/product/${id}`,
+        { number: this.editedItem.number,pattern: this.editedItem.pattern, color: this.editedItem.color,image: this.editedItem.image,})
+        .then((response) => {
 
-      })
-      .catch(function (error) {
-        console.log(error);
-    })
-      confirm('정상적으로 삭제되었습니다.')
-    
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        alert('정상적으로 삭제되었습니다.')
+        
+      }else {
+        return alert("삭제가 취소되었습니다.");
+      }
+      
     },
     
   },

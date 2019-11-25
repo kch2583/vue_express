@@ -33,7 +33,7 @@ export default {
       }
     },
     watch: {
-    // 라우트가 변경되면 메소드를 다시 호출됩니다.
+    // 라우트가 변경되면 메소드를 다시 호출
     '$route': function(ChangeItem){
       var id = this.$route.params.id
     this.$http.get(`/api/Products/${id}`)

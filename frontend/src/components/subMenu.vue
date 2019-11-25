@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img :src='pageimg' height="300"></v-img>
-    <p class="display-2 font-weight-black" > {{ pageName }} </p>
+    <p class="display-2 font-weight-black pageName" > {{ pageName }} </p>
   </div>
 </template>
 <script>
@@ -15,7 +15,7 @@ export default {
 }
 </script>
 <style lang="scss">
-    p {
+    .pageName {
     padding: 20px 50px 8px;
     border-bottom: 2px black solid
   }

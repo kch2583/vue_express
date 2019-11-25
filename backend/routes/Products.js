@@ -16,6 +16,13 @@ router.get('/', catchErrors(async(req, res, next) => {
       })
 }))
 
+router.post('/', catchErrors(async(req, res, next) => {
+  Fabrics.find({},function(err, Fabric){
+        if(err) return res.status(500).send({error: 'database failure'});
+  
+        res.json(Fabric);
+      })
+}))
 // router.get('/:id', function(req, res, next){
 //   var id = req.params.id
 //   var ProductDetail = Products.filter(function(Product){
