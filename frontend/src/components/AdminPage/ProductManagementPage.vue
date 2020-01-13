@@ -8,110 +8,58 @@
       <v-card>
         <v-container>
           <form action="/api/admin/settings/product" method="post">
-            <v-text-field
-              label="Number"
-              v-model="number"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Pattern"
-              v-model="pattern"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Color"
-              v-model="color"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Image"
-              v-model="image"
-              required
-            ></v-text-field>
-            <v-btn block outlined color="primary" @click="submit">
-              SUBMIT
-            </v-btn>
+            <v-select :items="type" v-model="type" label="Type"></v-select>
+            <v-text-field label="Number" v-model="number" required></v-text-field>
+            <v-text-field label="Pattern" v-model="pattern" required></v-text-field>
+            <v-text-field label="Color" v-model="color" required></v-text-field>
+            <v-text-field label="Image" v-model="image" required></v-text-field>
+            <v-btn block outlined color="primary" @click="submit">SUBMIT</v-btn>
           </form>
         </v-container>
       </v-card>
     </v-dialog>
 
-
     <!-- data table -->
-    <v-data-table
-    :headers="headers"
-    :items="fabrics"
-    :items-per-page="15"
-    class="elevation-1">
-    
-    <template v-slot:item.action="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          edit
-        </v-icon>
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          delete
-        </v-icon>
+    <v-data-table :headers="headers" :items="fabrics" :items-per-page="15" class="elevation-1">
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
       </template>
     </v-data-table>
-
 
     <!-- edit item -->
     <v-dialog v-model="edit_dialog" max-width="500px">
       <v-card>
         <v-container>
           <form action="/api/admin/settings/product" method="put">
-            <v-text-field
-              label="Number"
-              v-model="editedItem.number"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Pattern"
-              v-model="editedItem.pattern"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Color"
-              v-model="editedItem.color"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Image"
-              v-model="editedItem.image"
-              required
-            ></v-text-field>
-            <v-btn block outlined color="primary" @click="edit">
-              SUBMIT
-            </v-btn>
+            <v-select :items="type" v-model="editedItem.type" label="Type" required></v-select>
+            <v-text-field label="Number" v-model="editedItem.number" required></v-text-field>
+            <v-text-field label="Pattern" v-model="editedItem.pattern" required></v-text-field>
+            <v-text-field label="Color" v-model="editedItem.color" required></v-text-field>
+            <v-text-field label="Image" v-model="editedItem.image" required></v-text-field>
+            <v-btn block outlined color="primary" @click="edit">SUBMIT</v-btn>
           </form>
         </v-container>
       </v-card>
     </v-dialog>
-
-
   </v-container>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialog: false,
-      edit_dialog:false,
-      editedIndex:-1,
+      edit_dialog: false,
+      editedIndex: -1,
+      type: '',
       number: '',
       pattern: '',
       color: '',
       image: '',
       on: true,
       headers: [
-        { text: 'Number', sortable: true, value: 'number',},
+        { text: 'Type', sortable: true, value: 'type' },
+        { text: 'Number', sortable: true, value: 'number' },
         { text: 'Pattern', value: 'pattern' },
         { text: 'Color', value: 'color' },
         { text: 'Image', value: 'image' },
@@ -119,100 +67,107 @@ export default {
       ],
       fabrics: [],
       editedItem: {
+        type: '',
         number: '',
         pattern: '',
         color: '',
         image: '',
       },
       defaultItem: {
+        type: '',
         number: '',
         pattern: '',
         color: '',
         image: '',
       },
-      
-    }
+      type: [1, 2, 3, 4],
+    };
   },
-  created () {
-    this.$http.get('/api/admin/settings/product')
-    .then((response) => {
+  created() {
+    this.$http.get('/api/admin/settings/product').then(response => {
+      this.fabrics = response.data;
+    });
+  },
 
-      this.fabrics = response.data    
-    })
-  },
-  
- methods: {    
+  methods: {
     submit() {
-      this.$http.post('/api/admin/settings/product',
-       { number: this.number,pattern: this.pattern, color: this.color,image: this.image,})
-      .then((response) => {
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-    })
+      this.$http
+        .post('/api/admin/settings/product', {
+          type: this.type,
+          number: this.number,
+          pattern: this.pattern,
+          color: this.color,
+          image: this.image,
+        })
+        .then(response => {})
+        .catch(function(error) {
+          console.log(error);
+        });
       var newItem = {
         number: '',
         pattern: '',
         color: '',
         image: '',
-      }
-      newItem.number = this.number
-      newItem.pattern = this.pattern
-      newItem.color = this.color
-      newItem.image = this.image
+      };
+      newItem.number = this.number;
+      newItem.pattern = this.pattern;
+      newItem.color = this.color;
+      newItem.image = this.image;
 
-      this.dialog = false
-      this.fabrics.unshift(newItem)
-      
+      this.dialog = false;
+      this.fabrics.unshift(newItem);
     },
     edit(item, editedItem) {
-      var id = this.editedItem._id
-      this.$http.put(`/api/admin/settings/product/${id}`,
-       { number: this.editedItem.number,pattern: this.editedItem.pattern, color: this.editedItem.color,image: this.editedItem.image,})
-      .then((response) => {
-
-      })
-      .catch(function (error) {
-        console.log(error);
-    })
-      this.edit_dialog = false
-      const index = this.fabrics.indexOf(item)
-      this.fabrics[index+1].number = this.editedItem.number
-      this.fabrics[index+1].pattern = this.editedItem.pattern
-      this.fabrics[index+1].color = this.editedItem.color
-      this.fabrics[index+1].image = this.editedItem.image
-
-    },
-    editItem (item) {
-      this.editedIndex = this.fabrics.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.edit_dialog = true
-    },
-
-    deleteItem (item) {
-      const index = this.fabrics.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      var id = this.editedItem._id
-      if ( confirm('Are you sure you want to delete this item?') == true) {
-        this.fabrics.splice(index, 1)
-        this.$http.delete(`/api/admin/settings/product/${id}`,
-        { number: this.editedItem.number,pattern: this.editedItem.pattern, color: this.editedItem.color,image: this.editedItem.image,})
-        .then((response) => {
-
+      var id = this.editedItem._id;
+      this.$http
+        .put(`/api/admin/settings/product/${id}`, {
+          type: this.editedItem.type,
+          number: this.editedItem.number,
+          pattern: this.editedItem.pattern,
+          color: this.editedItem.color,
+          image: this.editedItem.image,
         })
-        .catch(function (error) {
+        .then(response => {})
+        .catch(function(error) {
           console.log(error);
-        })
-        alert('정상적으로 삭제되었습니다.')
-        
-      }else {
-        return alert("삭제가 취소되었습니다.");
-      }
-      
+        });
+      this.edit_dialog = false;
+      const index = this.fabrics.indexOf(item);
+      this.fabrics[index + 1].type = this.editedItem.type;
+      this.fabrics[index + 1].number = this.editedItem.number;
+      this.fabrics[index + 1].pattern = this.editedItem.pattern;
+      this.fabrics[index + 1].color = this.editedItem.color;
+      this.fabrics[index + 1].image = this.editedItem.image;
     },
-    
-  },
+    editItem(item) {
+      this.editedIndex = this.fabrics.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.edit_dialog = true;
+    },
 
-}
+    deleteItem(item) {
+      const index = this.fabrics.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      var id = this.editedItem._id;
+      if (confirm('Are you sure you want to delete this item?') == true) {
+        this.fabrics.splice(index, 1);
+        this.$http
+          .delete(`/api/admin/settings/product/${id}`, {
+            type: this.editedItem.type,
+            number: this.editedItem.number,
+            pattern: this.editedItem.pattern,
+            color: this.editedItem.color,
+            image: this.editedItem.image,
+          })
+          .then(response => {})
+          .catch(function(error) {
+            console.log(error);
+          });
+        alert('정상적으로 삭제되었습니다.');
+      } else {
+        return alert('삭제가 취소되었습니다.');
+      }
+    },
+  },
+};
 </script>

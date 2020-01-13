@@ -1,5 +1,14 @@
 <template>
-  <div class="Home">
+  <div>
+    <v-card color="grey" height="600px">
+      <v-card-text class="headline">
+        제품보러가기
+        <v-icon>fas fa-arrow-right</v-icon>
+      </v-card-text>
+    </v-card>
+  </div>
+
+  <!-- <div class="Home">
     <v-card align="center" justify="center">
       <v-img
         id="homeImg"
@@ -19,8 +28,8 @@
           </v-row>
         </v-container>
       </v-img>
-    </v-card>
-
+  </v-card>-->
+  <!-- 
     <v-container my-12>
       <v-row dense>
         <v-col v-for="card in cards" :key="card.id" cols="6" sm="3">
@@ -36,14 +45,14 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+  </v-container>-->
 
-    <v-parallax :src="parallaxImage" height="300">
+  <!-- <v-parallax :src="parallaxImage" height="300">
       <v-row align="center" justify="center">
         <h1>준비중</h1>
       </v-row>
     </v-parallax>
-  </div>
+  </div>-->
 </template>
 
 <script>
