@@ -1,14 +1,21 @@
 <template>
-  <div>
+  <!-- <div>
     <v-card color="grey" height="600px">
-      <v-card-text class="headline">
-        제품보러가기
-        <v-icon>fas fa-arrow-right</v-icon>
-      </v-card-text>
+      <v-img
+        id="homeImg"
+        :src="HomeImage"
+        height="700"
+        gradient="to top right, rgba(255,255,255,.1),rgba(255,255,255,.9)"
+      >
+        <v-card-text class="headline">
+          제품보러가기
+          <v-icon>fas fa-arrow-right</v-icon>
+        </v-card-text>
+      </v-img>
     </v-card>
-  </div>
+  </div>-->
 
-  <!-- <div class="Home">
+  <div class="Home">
     <v-card align="center" justify="center">
       <v-img
         id="homeImg"
@@ -16,20 +23,31 @@
         height="700"
         gradient="to top right, rgba(255,255,255,.1),rgba(255,255,255,.9)"
       >
-        <v-container>
+        <!-- <v-container>
           <v-row>
             <v-col cols="12" class="homeInfo">
-              <v-card-title class="display-3 font-weight-black">회사 이름</v-card-title>
-              <v-card-title class="display-1">
+              <v-card-title class="display-3 font-weight-black">주식회사 대현</v-card-title>
+              <v-card-title align="center" justify="center" class="display-1">
                 제품보러가기
                 <v-icon>fas fa-arrow-right</v-icon>
               </v-card-title>
             </v-col>
           </v-row>
+        </v-container>-->
+        <v-container fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col>
+              <p class="text-center display-3">주식회사 대현</p>
+              <p class="text-center display-1">
+                제품보러가기
+                <v-icon>fas fa-arrow-right</v-icon>
+              </p>
+            </v-col>
+          </v-row>
         </v-container>
       </v-img>
-  </v-card>-->
-  <!-- 
+    </v-card>
+
     <v-container my-12>
       <v-row dense>
         <v-col v-for="card in cards" :key="card.id" cols="6" sm="3">
@@ -45,14 +63,14 @@
           </v-card>
         </v-col>
       </v-row>
-  </v-container>-->
+    </v-container>
 
-  <!-- <v-parallax :src="parallaxImage" height="300">
+    <v-parallax :src="parallaxImage" height="300">
       <v-row align="center" justify="center">
         <h1>준비중</h1>
       </v-row>
     </v-parallax>
-  </div>-->
+  </div>
 </template>
 
 <script>

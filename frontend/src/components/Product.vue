@@ -35,17 +35,22 @@
       </v-card>
 
       <!-- v-show="!this.Products" -->
-      <v-card class="mt-12" style="background-color:transparent;" elevation="8">
+      <v-card
+        v-show="!this.Products.length"
+        class="mt-12"
+        style="background-color:transparent;"
+        elevation="8"
+      >
         <p class="display-1 pa-12 text-center">데이터가 없습니다.</p>
       </v-card>
       <v-row v-show="this.Products">
-        <v-col v-for="item in calData" :key="item.id" cols="6" sm="4">
+        <v-col v-for="item in calData" :key="item.id" cols="6" sm="3">
           <router-link :to="{ name: 'ProductDetail', params: { id : item._id } }">
             <v-hover>
               <template v-slot="{ hover }">
                 <v-card class="pa-2" :elevation="hover ? 24 : 6">
                   <v-card-title>{{ item.number }}</v-card-title>
-                  <!-- <v-img></v-img> -->
+                  <v-img height="400px">{{ item.image }}</v-img>
                   <v-card-text>{{ item.img }}</v-card-text>
                   <v-card-text>{{ item.pattern }} | {{ item.color }}</v-card-text>
                 </v-card>

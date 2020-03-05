@@ -8,7 +8,7 @@
       <v-card>
         <v-container>
           <form action="/api/admin/settings/product" method="post">
-            <v-select :items="type" v-model="type" label="Type"></v-select>
+            <v-select :items="leather_type" v-model="type" label="Type"></v-select>
             <v-text-field label="Number" v-model="number" required></v-text-field>
             <v-text-field label="Pattern" v-model="pattern" required></v-text-field>
             <v-text-field label="Color" v-model="color" required></v-text-field>
@@ -32,7 +32,7 @@
       <v-card>
         <v-container>
           <form action="/api/admin/settings/product" method="put">
-            <v-select :items="type" v-model="editedItem.type" label="Type" required></v-select>
+            <v-select :items="leather_type" v-model="editedItem.type" label="Type" required></v-select>
             <v-text-field label="Number" v-model="editedItem.number" required></v-text-field>
             <v-text-field label="Pattern" v-model="editedItem.pattern" required></v-text-field>
             <v-text-field label="Color" v-model="editedItem.color" required></v-text-field>
@@ -80,7 +80,7 @@ export default {
         color: '',
         image: '',
       },
-      type: [1, 2, 3, 4],
+      leather_type: [1, 2, 3, 4],
     };
   },
   created() {
@@ -104,11 +104,13 @@ export default {
           console.log(error);
         });
       var newItem = {
+        type: '',
         number: '',
         pattern: '',
         color: '',
         image: '',
       };
+      newItem.type = this.type;
       newItem.number = this.number;
       newItem.pattern = this.pattern;
       newItem.color = this.color;
@@ -119,6 +121,7 @@ export default {
     },
     edit(item, editedItem) {
       var id = this.editedItem._id;
+
       this.$http
         .put(`/api/admin/settings/product/${id}`, {
           type: this.editedItem.type,

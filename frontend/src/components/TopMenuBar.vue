@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-tabs background-color="transparent" id="tabs" class="ma-5">
+    <v-tabs background-color="transparent" id="tabs" hide-slider color="black">
       <v-tab disabled class="headline">{{ Logo }}</v-tab>
       <v-spacer></v-spacer>
       <v-tab
         v-for="menu in Menunames"
         :key="menu.id"
         :to="{path:menu.path}"
-        class="hidden-sm-and-down font-weight-black headline mr-8"
+        class="hidden-sm-and-down font-weight-black title"
       >{{ menu.name }}</v-tab>
 
       <div class="MenuIcon hidden-md-and-up">

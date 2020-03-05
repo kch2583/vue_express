@@ -1,7 +1,5 @@
 <template>
-  <v-app
-    style="background:#f3f1ec; font-family: 'S-CoreDream-8Heavy'!important"
-  >
+  <v-app style=" font-family: 'S-CoreDream-8Heavy'!important">
     <v-content class="app" style="font-family: 'S-CoreDream-8Heavy'!important">
       <div v-if="$route.path.indexOf('/admin')">
         <TopMenuBar />
